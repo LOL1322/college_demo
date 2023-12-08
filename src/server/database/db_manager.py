@@ -12,10 +12,10 @@ class DBManager:
     def conect_to_db(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
         conn = sqlite3.connect(self.default_path)
         cur = conn.cursor()
-        return cunn, cur
+        return conn, cur
 
-    def check_base(self) -> bol:
-        return os.path.exists(self.default.path)
+    def check_base(self) -> bool:
+        return os.path.exists(self.default_path)
 
     def execute(self, qure: str, args: tuple = (), manu: bool = False) -> dict:
         conn, cur = self.connect_to_db()
@@ -27,16 +27,16 @@ class DBManager:
                 result = res.fetchone()
         except sqlite3.Error as err: 
             conn.close()
-            return {"code": 400, "msg": str(err), "error": Fasle, "result": none } 
+            return {"code": 400, "msg": str(err), "error": False, "result": None } 
         conn.commit()
         conn.close()
-        return {"code": 200, "msg": "Successfully", error: False, "result": result}
+        return {"code": 200, "msg": "Successfully", "error": False, "result": result}
 
     def create_base(self, script_path_tables: str, sript_path_data: str, ) -> dict:
-        conn, cur = self.connect_to_db()
+        conn, cur = self.conect_to_db()
         if self.check_base():
             try:
-                [cur.executescript(open(script_path).read()) for sript_path in [script_path_tables, sript_path_data]]
+                [cur.executescript(open(script_path).read()) for script_path in [script_path_tables, sript_path_data]]
                 conn.commit()
                 conn.close()
                 return {"code": 200, "msg": "Successfulle", "error": False, "result": None}
