@@ -1,6 +1,8 @@
 import sqlite3
 import os
+import sys
 
+sys.path.append('C:/college_demo')
 
 
 import settings
