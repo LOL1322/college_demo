@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 
 DB_PATH = "../college_demo/src/server/database/college.db"
 SCRIPTS_DIR = "../college_demo/src/server/database/scripts"

@@ -2,6 +2,7 @@ import sqlite3
 import os
 import sys
 
+
 sys.path.append('C:/college_demo')
 
 
@@ -34,11 +35,11 @@ class DBManager:
         conn.close()
         return {"code": 200, "msg": "Successfully", "error": False, "result": result}
 
-    def create_base(self, script_path_tables: str, sript_path_data: str, ) -> dict:
+    def create_base(self, script_path_tables: str, script_path_data: str, ) -> dict:
         conn, cur = self.conect_to_db()
         if self.check_base():
             try:
-                [cur.executescript(open(script_path).read()) for script_path in [script_path_tables, sript_path_data]]
+                [cur.executescript(open(script_path).read()) for script_path in [script_path_tables, script_path_data]]
                 conn.commit()
                 conn.close()
                 return {"code": 200, "msg": "Successfulle", "error": False, "result": None}
@@ -49,10 +50,7 @@ class DBManager:
 
 db_manager = DBManager(default_path=settings.DB_PATH)
 
-
-
-
-
+print(db_manager.create_base(f'{settings.SCRIPTS_DIR}/base.sql', script_path_data=f"{settings.SCRIPTS_DIR}/data.sql"))
 
 
 
