@@ -1,5 +1,5 @@
 from src.server.database.models import Groupss
-from src.server.database import db_manager
+from src.server.database.db_manager import db_manager
 
 def get(groupID: int) -> dict:
     return db_manager.execute(qure='''SELECT * FROM Groupss WHERE ID = ?''', args=(groupID,))

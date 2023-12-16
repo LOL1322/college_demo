@@ -12,7 +12,7 @@ class DBManager:
     def __init__(self, default_path:str) -> None:
         self.default_path = default_path
 
-    def conect_to_db(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
+    def connect_to_db(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
         conn = sqlite3.connect(self.default_path)
         cur = conn.cursor()
         return conn, cur
@@ -20,11 +20,11 @@ class DBManager:
     def check_base(self) -> bool:
         return os.path.exists(self.default_path)
 
-    def execute(self, qure: str, args: tuple = (), manu: bool = False) -> dict:
+    def execute(self, qure: str, args: tuple = (), fetchall: bool = False) -> dict:
         conn, cur = self.connect_to_db()
         try:
             res = cur.execute(qure, args)
-            if manu:
+            if fetchall:
                 result = res.fetchall()
             else: 
                 result = res.fetchone()
@@ -36,7 +36,7 @@ class DBManager:
         return {"code": 200, "msg": "Successfully", "error": False, "result": result}
 
     def create_base(self, script_path_tables: str, script_path_data: str, ) -> dict:
-        conn, cur = self.conect_to_db()
+        conn, cur = self.connect_to_db()
         if self.check_base():
             try:
                 [cur.executescript(open(script_path).read()) for script_path in [script_path_tables, script_path_data]]

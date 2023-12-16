@@ -28,7 +28,7 @@ class Shedules(ModifyBaseModel):
     note: str
 
 
-class Users(ModifyBaseModel):
+class User(ModifyBaseModel):
     type_id: int
     login: str
     password: str
