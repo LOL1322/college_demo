@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QWidget
 class UserProfile(QtWidgets.QWidget):
     def __init__(self, parent: QWidget) -> None:
         super(UserProfile, self).__init__(parent)
+        self.parent = parent
         self.__init_ui()
         self.__setting_ui()
 
@@ -14,6 +15,7 @@ class UserProfile(QtWidgets.QWidget):
         self.main_v_layout = QtWidgets.QVBoxLayout()
         self.id_h_layout = QtWidgets.QHBoxLayout()
         self.type_id_h_layout = QtWidgets.QHBoxLayout()
+        self.group_id_h_layout = QtWidgets.QHBoxLayout()
         self.login_h_layout = QtWidgets.QHBoxLayout()
         self.password_h_layout = QtWidgets.QHBoxLayout()
         self.confirm_h_layout = QtWidgets.QHBoxLayout()
@@ -23,12 +25,14 @@ class UserProfile(QtWidgets.QWidget):
 
         self.id_label = QtWidgets.QLabel(text='ID: ')
         self.type_id_label = QtWidgets.QLabel(text='Type ID: ')
+        self.group_id_label = QtWidgets.QLabel(text='Group ID: ')
         self.login_label = QtWidgets.QLabel(text='Login: ')
         self.password_label = QtWidgets.QLabel(text='Password: ')
         self.confirm_label = QtWidgets.QLabel(text='Confirm: ')
 
         self.id_line_edit = QtWidgets.QLineEdit()
         self.type_id_line_edit = QtWidgets.QLineEdit()
+        self.group_id_line_edit = QtWidgets.QLineEdit()
         self.login_line_edit = QtWidgets.QLineEdit()
         self.password_line_edit = QtWidgets.QLineEdit()
         self.confirm_line_edit = QtWidgets.QLineEdit()
@@ -40,12 +44,13 @@ class UserProfile(QtWidgets.QWidget):
     
     def __setting_ui(self) -> None:
         self.setLayout(self.main_v_layout)
-        # self.setContentsMargins(0, 0, 0, 0)
+        self.setContentsMargins(0, 0, 0, 0)
         self.main_v_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
-        # self.setMaximumWidth(250)``
+        self.setMaximumWidth(250)
 
         self.main_v_layout.addLayout(self.id_h_layout)
         self.main_v_layout.addLayout(self.type_id_h_layout)
+        self.main_v_layout.addLayout(self.group_id_h_layout)
         self.main_v_layout.addSpacerItem(self.spacer)
         self.main_v_layout.addLayout(self.login_h_layout)
         self.main_v_layout.addLayout(self.password_h_layout)
@@ -55,12 +60,14 @@ class UserProfile(QtWidgets.QWidget):
         
         self.id_h_layout.addWidget(self.id_label)
         self.type_id_h_layout.addWidget(self.type_id_label)
+        self.group_id_h_layout.addWidget(self.group_id_label)
         self.login_h_layout.addWidget(self.login_label)
         self.password_h_layout.addWidget(self.password_label)
         self.confirm_h_layout.addWidget(self.confirm_label)
 
         self.id_h_layout.addWidget(self.id_line_edit)
         self.type_id_h_layout.addWidget(self.type_id_line_edit)
+        self.group_id_h_layout.addWidget(self.group_id_line_edit)
         self.login_h_layout.addWidget(self.login_line_edit)
         self.password_h_layout.addWidget(self.password_line_edit)
         self.confirm_h_layout.addWidget(self.confirm_line_edit)
@@ -72,11 +79,12 @@ class UserProfile(QtWidgets.QWidget):
 
         self.id_line_edit.setFixedWidth(150)
         self.type_id_line_edit.setFixedWidth(150)
+        self.group_id_line_edit.setFixedWidth(150)
         self.login_line_edit.setFixedWidth(150)
         self.password_line_edit.setFixedWidth(150)
         self.confirm_line_edit.setFixedWidth(150)
 
-        [line_edit.setEnabled(False) for line_edit in (self.id_line_edit, self.type_id_line_edit, self.login_line_edit, self.password_line_edit, self.confirm_line_edit)]
+        [line_edit.setEnabled(False) for line_edit in (self.id_line_edit, self.type_id_line_edit, self.login_line_edit, self.password_line_edit, self.confirm_line_edit, self.group_id_line_edit)]
         
         [line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password) for line_edit in (self.password_line_edit, self.confirm_line_edit)]
 
@@ -88,8 +96,15 @@ class UserProfile(QtWidgets.QWidget):
         if QtWidgets.QMessageBox.question(self, 'Info', 'Are you sure?') != QtWidgets.QMessageBox.StandardButton.Yes:
             return
         self.parent.session.delete()
+        self.parent.leave()
         self.parent.show_message(text='Succesfully delete account', parent=self)
     
+    def fill_line_edits(self) -> None:
+        self.id_line_edit.setText(str(self.parent.session.user.ID))
+        self.type_id_line_edit.setText(str(self.parent.session.user.type_id))
+        self.login_line_edit.setText(self.parent.session.user.login)
+        self.group_id_line_edit.setText(str(self.parent.session.user.group_id))
+
     def on_leave_button_click(self) -> None:
         self.parent.leave()
     

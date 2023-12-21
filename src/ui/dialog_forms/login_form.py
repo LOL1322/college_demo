@@ -27,7 +27,7 @@ class LoginWindow(QtWidgets.QDialog):
         self.login_line_edit = QtWidgets.QLineEdit()
         self.password_line_edit = QtWidgets.QLineEdit()
 
-        self.login_button = QtWidgets.QPushButton()
+        self.login_button = QtWidgets.QPushButton(text='Login')
 
     def __setting_ui(self) -> None:
         self.setLayout(self.main_h_layout)
@@ -47,7 +47,7 @@ class LoginWindow(QtWidgets.QDialog):
 
         self.password_line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
 
-        self.login_button.clicked.connect(self)
+        self.login_button.clicked.connect(self.on_login_button_click)
 
     def keyPressEvent(self, event: QKeyEvent) -> None:
         if event.key() == QtCore.Qt.Key.Key_Return:
@@ -72,6 +72,7 @@ class LoginWindow(QtWidgets.QDialog):
 
         if self.parent.session.error:
             self.parent.show_message(text=self.parent.session.error, error=True, parent=self)
+            return
         
         if self.parent.session.auth:
             self.parent.show_message(text='Succesfully login', parent=self)

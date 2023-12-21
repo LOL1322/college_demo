@@ -15,10 +15,10 @@ class RegisterWindow(QtWidgets.QDialog):
 
 
     def __init_ui(self) -> None: 
-        self.main_v_layout = QtWidgets.QVBoxLayout
-        self.label_line_edit_h_layout = QtWidgets.QVBoxLayout
-        self.label_v_layout = QtWidgets.QVBoxLayout
-        self.line_edit_v_layout = QtWidgets.QVBoxLayout
+        self.main_v_layout = QtWidgets.QVBoxLayout()
+        self.label_line_edit_h_layout = QtWidgets.QHBoxLayout()
+        self.label_v_layout = QtWidgets.QVBoxLayout()
+        self.line_edit_v_layout = QtWidgets.QVBoxLayout()
 
 
         self.id_label = QtWidgets.QLabel()
@@ -42,7 +42,6 @@ class RegisterWindow(QtWidgets.QDialog):
 
     def __setting_ui(self) -> None:
         self.setWindowTitle("Sign up")
-
         self.setLayout(self.main_v_layout)
         self.main_v_layout.addLayout(self.label_line_edit_h_layout)
         self.label_line_edit_h_layout.addLayout(self.label_v_layout)
@@ -50,7 +49,7 @@ class RegisterWindow(QtWidgets.QDialog):
 
         self.label_v_layout.addWidget(self.id_label)
         self.label_v_layout.addWidget(self.label_type_id)
-        self.label_v_layout.addWidget(self.line_edit_group_id)
+        self.label_v_layout.addWidget(self.label_group_id)
         self.label_v_layout.addSpacerItem(self.spacer)
         self.label_v_layout.addWidget(self.label_login)
         self.label_v_layout.addWidget(self.label_password)
@@ -103,7 +102,7 @@ class RegisterWindow(QtWidgets.QDialog):
         if not self.data_is_valid():
             return
         
-        self.parent.session.register(type_id=int(self.line_edit_type_id.text()), login=self.line_edit_login.text(), password=self.line_edit_password.text())
+        self.parent.session.register(type_id=int(self.line_edit_type_id.text()), login=self.line_edit_login.text(), password=self.line_edit_password.text(), group_id=self.line_edit_group_id.text())
 
         if self.parent.session.error:
             self.parent.show_message(text=self.parent.session.error, error=True, parent=self)

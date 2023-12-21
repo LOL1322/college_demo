@@ -1,4 +1,4 @@
-from src.server.database.models import User, UserPass
+from src.server.database.models import User, UserPass, LoginData
 from src.server.database.db_manager import db_manager
 
 def get(userID: int) -> dict:
@@ -53,8 +53,8 @@ def new(data: User)-> dict:
 
     return res
 
-def update(userID: int, new_data: User) -> dict:
-    res = db_manager.execute(qure='''UPDATE User SET (password) = (?) WHERE ID = ?''', args=(new_data.password, userID))
+def update(userID: int, new_data: UserPass) -> dict:
+    res = db_manager.execute(qure='''UPDATE User SET password = ? WHERE ID = ?''', args=(new_data.password, userID))
 
     res["result"] = get(userID = userID )["result"]
 

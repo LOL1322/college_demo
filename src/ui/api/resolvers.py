@@ -13,17 +13,20 @@ def server_available(func):
         
     return need_it
 
+@server_available
+def check_available():
+    return True
 
 @server_available
 def register(user:User) -> dict:
-    data = f'{{"ID": "{user.ID}", "login": "{user.login}", "password": "{user.password}" }}'
+    data = f'{{"ID": {user.ID}, "login": "{user.login}", "password": "{user.password}", "group_id": {user.group_id}, "type_id": {user.type_id}}}'
     return requests.post(url=f'{settings.URL}/user/new', data=data).json()
 
 
 @server_available
 def login(user:LoginData) -> dict:
     data = f'{{"login": "{user.login}", "password": "{user.password}"}}'
-    return requests.post(url=f'{settings.URL}/user/login', data=data).json()
+    return requests.post(url=f'{settings.URL}/user/login/', data=data).json()
 
 
 @server_available

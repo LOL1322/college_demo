@@ -3,7 +3,7 @@ from src.ui.dialog_forms import register_form, login_form
 
 
 class AuthorizationMenu(QtWidgets.QWidget):
-    def __init(self, parent: QtWidgets.QWidget) -> None:
+    def __init__(self, parent: QtWidgets.QWidget) -> None:
         super(AuthorizationMenu, self).__init__(parent)
         self.parent = parent
         self.__init_ui()
