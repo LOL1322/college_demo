@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from src.server.resolvers import user
-from src.server.database.models import User
+from src.server.database.models import User, UserPass
 
 rout = APIRouter(prefix='/users', tags=["Users"])
 
@@ -28,3 +28,11 @@ def update_user(data: User, userID: int) -> dict:
 @rout.delete(path='/delete/{userID}', response_model=dict)
 def delete_user(userID: int) -> dict:
     return user.delete(userID=userID)
+
+@rout.post(path='/login/', response_model=dict)
+def account_login(data:User) -> dict:
+    return user.login(data=data)
+
+@rout.put(path='/updatePassword/ {userID}', response_model=dict)
+def upd_pass(userID: int, new_password: UserPass) -> dict:
+    return user.update(userID=userID, new_data=new_password)

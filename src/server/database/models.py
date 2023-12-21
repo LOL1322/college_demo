@@ -1,8 +1,9 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class ModifyBaseModel(BaseModel):
-    ID: int
+    ID: Optional[int]
 
 
 class TypesUsers(ModifyBaseModel):
@@ -42,4 +43,10 @@ class Schedules_of_groupss_of_subjects(ModifyBaseModel):
     user_id: int
 
 
-    
+class UserPass(BaseModel):
+    password: str
+
+
+class LoginData(BaseModel):
+    login: str 
+    password: str

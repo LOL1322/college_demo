@@ -31,6 +31,8 @@ class DBManager:
         except sqlite3.Error as err: 
             conn.close()
             return {"code": 400, "msg": str(err), "error": False, "result": None } 
+        print(result)
+        print(res)
         conn.commit()
         conn.close()
         return {"code": 200, "msg": "Successfully", "error": False, "result": result}
